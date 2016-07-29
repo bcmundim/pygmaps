@@ -40,7 +40,7 @@ class maps:
 		f.write('<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />\n')
 		f.write('<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>\n')
 		f.write('<title>Google Maps - pygmaps </title>\n')
-		f.write('<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>\n')
+		f.write('<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=false"></script>\n')
 		f.write('<script type="text/javascript">\n')
 		f.write('\tfunction initialize() {\n')
 		self.drawmap(f)
