@@ -200,7 +200,7 @@ if __name__ == "__main__":
 	# PARAMETER3:	zoom (int)  map zoom level 0~20
 	# RETURN:	the instant of pygmaps
 	#========================================================================================
-	mymap = pygmaps(37.428, -122.145, 16)
+	mymap = maps(37.428, -122.145, 16)
 
 
 	########## FUNCTION: setgrids(start-Lat, end-Lat, Lat-interval, start-Lng, end-Lng, Lng-interval) ######
