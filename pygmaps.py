@@ -1,4 +1,5 @@
 import math
+import os
 ###########################################################
 ## Google map python wrapper V0.1
 ## 
@@ -263,7 +264,17 @@ if __name__ == "__main__":
    ########## FUNCTION:  addpath(file)##########################################
    # DESC:         create the html map file (.html)
    # PARAMETER1:   file (string) the map path and file
+   # PARAMETER2:   Optional Google maps API key
    # RETURN:       no return, generate html file in specified directory
    #============================================================================
    mymap.draw('./mymap.html')
+
+   # To get your Google maps API key, follow the instructions at 
+   # https://developers.google.com/maps/documentation/javascript/get-api-key
+   # Save it outside the source code directory. Load it as a environment 
+   # variable.
+   #apikey = os.environ['YOUR_GOOGLE_MAPS_API_KEY']
+   apikey = 'YOUR_GOOGLE_MAPS_API_KEY' 
+   mymap.draw('./mymap_with_API_key.html', apikey)
+
 
