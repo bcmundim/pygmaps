@@ -99,7 +99,7 @@ class maps:
       lat1 = (math.pi/180.0)* lat
       lng1 = (math.pi/180.0)* lng
 
-      r = [x*30 for x in range(12)]
+      r = [x*10 for x in range(36)]
       for a in r:
          tc = (math.pi/180.0)*a;
          y = math.asin(math.sin(lat1)*math.cos(d)+math.cos(lat1)*math.sin(d)*math.cos(tc))
