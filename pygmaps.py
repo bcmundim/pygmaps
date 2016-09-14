@@ -132,7 +132,7 @@ class maps:
       f.write('\t\tvar latlng = new google.maps.LatLng(%f, %f);\n'%(lat,lon))
       f.write('\t\tvar img = new google.maps.MarkerImage(\'%s\');\n' % (self.coloricon.replace('XXXXXX',color)))
       f.write('\t\tvar marker = new google.maps.Marker({\n')
-      f.write('\t\ttitle: "no implimentation",\n')
+      f.write('\t\ttitle: "Not implemented at the moment",\n')
       f.write('\t\ticon: img,\n')
       f.write('\t\tposition: latlng\n')
       f.write('\t\t});\n')
