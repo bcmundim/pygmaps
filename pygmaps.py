@@ -5,6 +5,18 @@ import os
 ## 
 ############################################################
 
+class return_string:
+    """
+        Class to overwrite the file object open to draw the map.
+        Return the whole html as a string to be further processed if needed.
+    """
+    def __init__(self):
+        self.string = ""
+
+    def write(self, newstring):
+        self.string += newstring
+
+
 class maps:
 
    def __init__(self, centerLat, centerLng, zoom ):
@@ -33,9 +45,15 @@ class maps:
       path.append(color)
       self.paths.append(path)
    
-   #create the html file which inlcude one google map and all points and paths
-   def draw(self, htmlfile, apikey=""):
-      f = open(htmlfile,'w')
+   # Create the html document, which includes one google map and all points 
+   # and paths, and write it to file or return it as a string to be further
+   # processed by other applications.
+   def draw(self, htmldoc, apikey = "", ToFile = True):
+      if ToFile:
+        f = open(htmldoc,'w')
+      else:
+        f = return_string()
+      
       f.write('<html>\n')
       f.write('<head>\n')
       f.write('<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />\n')
@@ -58,7 +76,10 @@ class maps:
       f.write('\t<div id="map_canvas" style="width: 100%; height: 100%;"></div>\n')
       f.write('</body>\n')
       f.write('</html>\n')
-      f.close()
+      if ToFile:
+        f.close()
+      else:
+        return f.string
 
    def drawgrids(self, f):
       if self.gridsetting == None:
@@ -81,6 +102,7 @@ class maps:
       
       for line in self.grids:
          self.drawPolyline(f,line,strokeColor = "#000000")
+
    def drawpoints(self,f):
       for point in  self.points:
          self.drawpoint(f,point[0],point[1],point[2])
@@ -261,11 +283,14 @@ if __name__ == "__main__":
    path = [(37.429, -122.145),(37.428, -122.145),(37.427, -122.145),(37.427, -122.146),(37.427, -122.146)]
    mymap.addpath(path,"#00FF00")
 
-   ########## FUNCTION:  addpath(file)##########################################
-   # DESC:         create the html map file (.html)
+   ########## FUNCTION:  draw(file)##########################################
+   # DESC:         create the html map file (.html) or returns it as a string.
    # PARAMETER1:   file (string) the map path and file
    # PARAMETER2:   Optional Google maps API key
+   # PARAMETER3:   Optional: boolean to make it write to file (True and default)
+   #               or return the html doc as a string (False)
    # RETURN:       no return, generate html file in specified directory
+   #               or return a string according to PARAMTER3 setting.
    #============================================================================
    mymap.draw('./mymap.html')
 
@@ -277,4 +302,9 @@ if __name__ == "__main__":
    apikey = 'YOUR_GOOGLE_MAPS_API_KEY' 
    mymap.draw('./mymap_with_API_key.html', apikey)
 
+   # Return the html document as a string:
+   myhtml_map = mymap.draw('./myhtml_map.html', ToFile = False)
+   f = open('./myhtml_map.html', 'w')
+   f.write(myhtml_map)
+   f.close()
 
