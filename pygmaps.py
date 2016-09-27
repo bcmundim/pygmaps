@@ -32,14 +32,16 @@ class maps:
    def setgrids(self,slat,elat,latin,slng,elng,lngin):
       self.gridsetting = [slat,elat,latin,slng,elng,lngin]
 
-   def addpoint(self, lat, lng, color = '#FF0000'):
-      self.points.append((lat,lng,color[1:]))
+   def addpoint(self, lat, lng, color = '#FF0000', 
+                markertitle = "Not available at the moment"):
+      self.points.append((lat,lng,color[1:],markertitle))
 
    #def addpointcoord(self, coord):
    #   self.points.append((coord[0],coord[1]))
 
-   def addradpoint(self, lat,lng,rad,color = '#0000FF'):
-      self.radpoints.append((lat,lng,rad,color))
+   def addradpoint(self, lat,lng,rad,color = '#0000FF', fill = False, addmarker = False,
+                   markertitle = "Not available at the moment"):
+      self.radpoints.append((lat,lng,rad,color,fill,addmarker,markertitle))
 
    def addpath(self,path,color = '#FF0000'):
       path.append(color)
@@ -105,12 +107,21 @@ class maps:
 
    def drawpoints(self,f):
       for point in  self.points:
-         self.drawpoint(f,point[0],point[1],point[2])
+         self.drawpoint(f,point[0],point[1],point[2],point[3])
 
    def drawradpoints(self, f):
       for rpoint in self.radpoints:
          path = self.getcycle(rpoint[0:3])
-         self.drawPolygon(f,path,strokeColor = rpoint[3])
+         # if addmarker:
+         if rpoint[5]:
+            # lat, lon, color, markertitle:
+            self.drawpoint(f,rpoint[0],rpoint[1],rpoint[3],rpoint[6])
+         # fill == rpoint[4]:
+         if rpoint[4]:
+            self.drawPolygon(f,path,strokeColor = rpoint[3], 
+                             fillColor = rpoint[3], fillOpacity = 0.1)
+         else:
+            self.drawPolygon(f,path,strokeColor = rpoint[3])
 
    def getcycle(self,rpoint):
       cycle = []
@@ -150,11 +161,11 @@ class maps:
 
 
 
-   def drawpoint(self,f,lat,lon,color):
+   def drawpoint(self,f,lat,lon,color,markertitle):
       f.write('\t\tvar latlng = new google.maps.LatLng(%f, %f);\n'%(lat,lon))
       f.write('\t\tvar img = new google.maps.MarkerImage(\'%s\');\n' % (self.coloricon.replace('XXXXXX',color)))
       f.write('\t\tvar marker = new google.maps.Marker({\n')
-      f.write('\t\ttitle: "Not implemented at the moment",\n')
+      f.write('\t\ttitle: "%s",\n' % (markertitle))
       f.write('\t\ticon: img,\n')
       f.write('\t\tposition: latlng\n')
       f.write('\t\t});\n')
@@ -256,7 +267,8 @@ if __name__ == "__main__":
    mymap.addpoint(37.427, -122.145, "#0000FF")
 
 
-   ########## FUNCTION:  addradpoint(latitude, longitude, radius, [color]) #####
+   ########## FUNCTION:  addradpoint(latitude, longitude, radius, [color],
+   ##########            [fill], [addmarker], [markertitle])               #####
    # DESC:         add a point with a radius (Meter) - Draw cycle
    # PARAMETER1:   latitude (float) latitude of the point
    # PARAMETER2:   longitude (float) longitude of the point
@@ -265,9 +277,14 @@ if __name__ == "__main__":
    #               color code
    # HTML COLOR CODE:  http://www.computerhope.com/htmcolor.htm
    #                   e.g. red "#FF0000", Blue "#0000FF", Green "#00FF00"
+   # PARAMETER5:   fill the circle with the same color stroke but lower opacity.
+   # PARAMETER6:   addmarker option to add a marker at the circle center or not.
+   # PARAMETER7:   markertitle option string describing the marker.
    # RETURN:       no return 
    #============================================================================
-   mymap.addradpoint(37.429, -122.145, 95, "#FF0000")
+   mymap.addradpoint(37.429, -122.145, 95, "#FF0000", fill = True,
+                     addmarker = True,
+                     markertitle = "Information about this marker" )
 
 
    ########## FUNCTION:  addpath(path,[color]) #################################
