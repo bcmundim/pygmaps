@@ -242,7 +242,7 @@ if __name__ == "__main__":
    mymap.setgrids(37.42, 37.43, 0.001, -122.15, -122.14, 0.001)
 
 
-   ########## FUNCTION:  addpoint(latitude, longitude, [color])#################
+   ########## FUNCTION:  addpoint(latitude, longitude, [color]) ################
    # DESC:         add a point into a map and dispaly it, color is optional 
    #               default is red
    # PARAMETER1:   latitude (float) latitude of the point
@@ -256,7 +256,7 @@ if __name__ == "__main__":
    mymap.addpoint(37.427, -122.145, "#0000FF")
 
 
-   ########## FUNCTION:  addradpoint(latitude, longitude, radius, [color])######
+   ########## FUNCTION:  addradpoint(latitude, longitude, radius, [color]) #####
    # DESC:         add a point with a radius (Meter) - Draw cycle
    # PARAMETER1:   latitude (float) latitude of the point
    # PARAMETER2:   longitude (float) longitude of the point
@@ -270,7 +270,7 @@ if __name__ == "__main__":
    mymap.addradpoint(37.429, -122.145, 95, "#FF0000")
 
 
-   ########## FUNCTION:  addpath(path,[color])##################################
+   ########## FUNCTION:  addpath(path,[color]) #################################
    # DESC:         add a path into map, the data struceture of Path is a list 
    #               of points
    # PARAMETER1:   path (list of coordinates) e.g. [(lat1,lng1),(lat2,lng2),...]
@@ -283,12 +283,12 @@ if __name__ == "__main__":
    path = [(37.429, -122.145),(37.428, -122.145),(37.427, -122.145),(37.427, -122.146),(37.427, -122.146)]
    mymap.addpath(path,"#00FF00")
 
-   ########## FUNCTION:  draw(file)##########################################
+   ########## FUNCTION:  draw(file, [apikey], [ToFile]) ########################
    # DESC:         create the html map file (.html) or returns it as a string.
-   # PARAMETER1:   file (string) the map path and file
-   # PARAMETER2:   Optional Google maps API key
-   # PARAMETER3:   Optional: boolean to make it write to file (True and default)
-   #               or return the html doc as a string (False)
+   # PARAMETER1:   file (string): the map path and file
+   # PARAMETER2:   apikey: Optional Google maps API key
+   # PARAMETER3:   ToFile: Optional boolean to make it write to file, 
+   #               True (default) or return the html doc as a string, False.
    # RETURN:       no return, generate html file in specified directory
    #               or return a string according to PARAMTER3 setting.
    #============================================================================
