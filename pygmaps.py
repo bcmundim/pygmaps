@@ -12,9 +12,13 @@ class return_string:
     """
     def __init__(self):
         self.string = ""
+        self.slist = []
 
     def write(self, newstring):
-        self.string += newstring
+        self.slist.append(newstring)
+
+    def close(self):
+        self.string = "".join(self.slist)
 
 
 class maps:
@@ -78,9 +82,8 @@ class maps:
       f.write('\t<div id="map_canvas" style="width: 100%; height: 100%;"></div>\n')
       f.write('</body>\n')
       f.write('</html>\n')
-      if ToFile:
-        f.close()
-      else:
+      f.close()
+      if not ToFile:
         return f.string
 
    def drawgrids(self, f):
