@@ -54,7 +54,7 @@ class maps:
    # Create the html document, which includes one google map and all points 
    # and paths, and write it to file or return it as a string to be further
    # processed by other applications.
-   def draw(self, htmldoc, apikey = "", ToFile = True):
+   def draw(self, htmldoc = "mymap_draw_test.html", apikey = "", ToFile = True):
       if ToFile:
         f = open(htmldoc,'w')
       else:
@@ -312,7 +312,7 @@ if __name__ == "__main__":
    # RETURN:       no return, generate html file in specified directory
    #               or return a string according to PARAMTER3 setting.
    #============================================================================
-   mymap.draw('./mymap.html')
+   mymap.draw('./test/mymap.html')
 
    # To get your Google maps API key, follow the instructions at 
    # https://developers.google.com/maps/documentation/javascript/get-api-key
@@ -320,11 +320,11 @@ if __name__ == "__main__":
    # variable.
    #apikey = os.environ['YOUR_GOOGLE_MAPS_API_KEY']
    apikey = 'YOUR_GOOGLE_MAPS_API_KEY' 
-   mymap.draw('./mymap_with_API_key.html', apikey)
+   mymap.draw('./test/mymap_with_API_key.html', apikey)
 
    # Return the html document as a string:
-   myhtml_map = mymap.draw('./myhtml_map.html', ToFile = False)
-   f = open('./myhtml_map.html', 'w')
-   f.write(myhtml_map)
+   mymap_string_html = mymap.draw(ToFile = False)
+   f = open('./test/mymap_string_html.html', 'w')
+   f.write(mymap_string_html)
    f.close()
 
