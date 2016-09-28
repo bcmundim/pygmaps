@@ -30,6 +30,7 @@ class maps:
       self.paths = []
       self.points = []
       self.radpoints = []
+      self.arcs = []
       self.gridsetting = None
       self.coloricon = 'http://chart.apis.google.com/chart?cht=mm&chs=12x16&chco=FFFFFF,XXXXXX,000000&ext=.png'
 
@@ -45,7 +46,11 @@ class maps:
 
    def addradpoint(self, lat,lng,rad,color = '#0000FF', fill = False, addmarker = False,
                    markertitle = "Not available at the moment"):
-      self.radpoints.append((lat,lng,rad,color,fill,addmarker,markertitle))
+      self.radpoints.append((lat,lng,rad, 0, 360, color,fill,addmarker,markertitle))
+
+   def addarc(self, lat, lng, rad, thi = 0, thf = 360, color = '#0000FF', 
+              addmarker = False, markertitle = "Not available at the moment"):
+      self.arcs.append((lat,lng,rad,thi,thf,color,addmarker,markertitle))
 
    def addpath(self,path,color = '#FF0000'):
       path.append(color)
@@ -89,6 +94,7 @@ class maps:
       self.drawgrids(f)
       self.drawpoints(f)
       self.drawradpoints(f)
+      self.drawarcs(f)
       self.drawpaths(f,self.paths)
       f.write('\t}\n')
       f.write('</script>\n')
@@ -131,28 +137,63 @@ class maps:
 
    def drawradpoints(self, f):
       for rpoint in self.radpoints:
-         path = self.getcycle(rpoint[0:3])
+         path = self.getcycle(rpoint[0:5])
          # if addmarker:
-         if rpoint[5]:
+         if rpoint[7]:
             # lat, lon, color, markertitle:
-            self.drawpoint(f,rpoint[0],rpoint[1],rpoint[3],rpoint[6])
+            self.drawpoint(f,rpoint[0],rpoint[1],rpoint[5],rpoint[8])
          # fill == rpoint[4]:
-         if rpoint[4]:
-            self.drawPolygon(f,path,strokeColor = rpoint[3], 
-                             fillColor = rpoint[3], fillOpacity = 0.1)
+         if rpoint[6]:
+            self.drawPolygon(f,path,strokeColor = rpoint[5], 
+                             fillColor = rpoint[5], fillOpacity = 0.1)
          else:
-            self.drawPolygon(f,path,strokeColor = rpoint[3])
+            self.drawPolygon(f,path,strokeColor = rpoint[5])
+
+#                         0   1   2   3   4    5     6      7         8
+# self.radpoints.append((lat,lng,rad, 0, 360, color,fill,addmarker,markertitle))
+#                    0   1   2   3   4    5      6          7
+# self.arcs.append((lat,lng,rad,thi,thf,color,addmarker,markertitle))
+
+   def drawarcs(self, f):
+      for arc in self.arcs:
+         path = self.getcycle(arc[0:5])
+         # if addmarker:
+         if arc[6]:
+            # lat, lon, color, markertitle:
+            self.drawpoint(f,arc[0], arc[1], arc[5], arc[7])
+
+         self.drawPolyline(f,path, strokeColor = arc[5])
+
 
    def getcycle(self,rpoint):
       cycle = []
       lat = rpoint[0]
       lng = rpoint[1]
-      rad = rpoint[2] #unit: meter
+      rad = rpoint[2] # radius in meters
+
+      thi = rpoint[3] # initial angle theta in degrees
+      thf = rpoint[4] # final angle theta in degrees
+      dtheta = thf - thi
+      adtheta = abs(dtheta)
+      if adtheta <= 90:
+         irange = 9
+      elif adtheta <= 180:
+         irange = 18
+      elif adtheta <= 270:
+         irange = 27
+      else:
+         irange = 36
+      hth = dtheta/irange
+
       d = (rad/1000.0)/6378.8;
       lat1 = (math.pi/180.0)* lat
       lng1 = (math.pi/180.0)* lng
 
-      r = [x*10 for x in range(36)]
+      if int(adtheta) == 360:
+         r = [i*10 for i in xrange(36)]
+      else:
+         r = [thi + i*hth for i in xrange(irange+1)]
+
       for a in r:
          tc = (math.pi/180.0)*a;
          y = math.asin(math.sin(lat1)*math.cos(d)+math.cos(lat1)*math.sin(d)*math.cos(tc))
@@ -319,6 +360,10 @@ if __name__ == "__main__":
    #============================================================================
    path = [(37.429, -122.145),(37.428, -122.145),(37.427, -122.145),(37.427, -122.146),(37.427, -122.146)]
    mymap.addpath(path,"#00FF00")
+
+
+   mymap.addarc(37.431, -122.145, 80, thi = 10, thf = 60, color = '#0000FF', 
+              addmarker = True, markertitle = "My arc!")
 
    ########## FUNCTION:  draw(file, [apikey], [ToFile]) ########################
    # DESC:         create the html map file (.html) or returns it as a string.
