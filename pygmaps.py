@@ -54,7 +54,8 @@ class maps:
    # Create the html document, which includes one google map and all points 
    # and paths, and write it to file or return it as a string to be further
    # processed by other applications.
-   def draw(self, htmldoc = "mymap_draw_test.html", apikey = "", ToFile = True):
+   def draw(self, htmldoc = "mymap_draw_test.html", apikey = "", ToFile = True,
+            title = "Google Maps - pygmaps"):
       if ToFile:
         f = open(htmldoc,'w')
       else:
@@ -65,7 +66,7 @@ class maps:
       f.write('<head>\n')
       f.write('<meta name="viewport" content="initial-scale=1.0">\n')
       f.write('<meta charset=utf-8">\n')
-      f.write('<title>Google Maps - pygmaps </title>\n')
+      f.write('<title>%s</title>\n'% (title))
       f.write('<style>\n')
       f.write('\thtml, body {\n')
       f.write('\t\theight: 100%;\n')
@@ -339,7 +340,7 @@ if __name__ == "__main__":
    mymap.draw('./test/mymap_with_API_key.html', apikey)
 
    # Return the html document as a string:
-   mymap_string_html = mymap.draw(ToFile = False)
+   mymap_string_html = mymap.draw(title = "My title", ToFile = False)
    f = open('./test/mymap_string_html.html', 'w')
    f.write(mymap_string_html)
    f.close()
