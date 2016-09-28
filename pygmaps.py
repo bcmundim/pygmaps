@@ -337,7 +337,7 @@ if __name__ == "__main__":
    # variable.
    #apikey = os.environ['YOUR_GOOGLE_MAPS_API_KEY']
    apikey = 'YOUR_GOOGLE_MAPS_API_KEY' 
-   mymap.draw('./test/mymap_with_API_key.html', apikey)
+   mymap.draw('./test/mymap_with_API_key.html', apikey = apikey)
 
    # Return the html document as a string:
    mymap_string_html = mymap.draw(title = "My title", ToFile = False)
