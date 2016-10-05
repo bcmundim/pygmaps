@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0">
+<meta charset=utf-8">
+<title>Google Maps - pygmaps</title>
+<style>
+	html, body {
+		height: 100%;
+		margin: 0;
+		padding: 0;
+	}
+	#map_canvas {
+		height: 100%;
+	}
+</style>
+</head>
+<body>
+	<div id="map_canvas"></div>
+<script>
+	var map;
+	function initialize() {
+		var centerlatlng = new google.maps.LatLng(37.430000, -122.145000);
+		var myOptions = {
+			zoom: 17,
+			center: centerlatlng,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+		var latlng = new google.maps.LatLng(37.427000, -122.147000);
+		var img = new google.maps.MarkerImage('http://chart.apis.google.com/chart?cht=mm&chs=12x16&chco=FFFFFF,#FF0000,000000&ext=.png');
+		var marker = new google.maps.Marker({
+		title: "First arc of closed polyarc1!",
+		icon: img,
+		position: latlng
+		});
+		marker.setMap(map);
+
+		var latlng = new google.maps.LatLng(37.430000, -122.147000);
+		var img = new google.maps.MarkerImage('http://chart.apis.google.com/chart?cht=mm&chs=12x16&chco=FFFFFF,#0000FF,000000&ext=.png');
+		var marker = new google.maps.Marker({
+		title: "Second arc of closed polyarc1!",
+		icon: img,
+		position: latlng
+		});
+		marker.setMap(map);
+
+var coords = [
+new google.maps.LatLng(37.427000, -122.144817),
+new google.maps.LatLng(37.427301, -122.144850),
+new google.maps.LatLng(37.427593, -122.144949),
+new google.maps.LatLng(37.427867, -122.145109),
+new google.maps.LatLng(37.428114, -122.145328),
+new google.maps.LatLng(37.428328, -122.145597),
+new google.maps.LatLng(37.428501, -122.145908),
+new google.maps.LatLng(37.428629, -122.146253),
+new google.maps.LatLng(37.428707, -122.146621),
+new google.maps.LatLng(37.428734, -122.147000),
+new google.maps.LatLng(37.428742, -122.147000),
+new google.maps.LatLng(37.428762, -122.147275),
+new google.maps.LatLng(37.428818, -122.147542),
+new google.maps.LatLng(37.428911, -122.147792),
+new google.maps.LatLng(37.429037, -122.148018),
+new google.maps.LatLng(37.429192, -122.148213),
+new google.maps.LatLng(37.429371, -122.148371),
+new google.maps.LatLng(37.429570, -122.148488),
+new google.maps.LatLng(37.429782, -122.148560),
+new google.maps.LatLng(37.430000, -122.148584),
+];
+
+var polygon = new google.maps.Polygon({
+clickable: false,
+geodesic: true,
+fillColor: "#0000FF",
+fillOpacity: 0.100000,
+paths: coords,
+strokeColor: "#0000FF",
+strokeOpacity: 1.000000,
+strokeWeight: 1
+});
+
+polygon.setMap(map);
+
+
+		var latlng = new google.maps.LatLng(37.430000, -122.143000);
+		var img = new google.maps.MarkerImage('http://chart.apis.google.com/chart?cht=mm&chs=12x16&chco=FFFFFF,#FF0000,000000&ext=.png');
+		var marker = new google.maps.Marker({
+		title: "First arc of closed polyarc2!",
+		icon: img,
+		position: latlng
+		});
+		marker.setMap(map);
+
+		var latlng = new google.maps.LatLng(37.428000, -122.143000);
+		var img = new google.maps.MarkerImage('http://chart.apis.google.com/chart?cht=mm&chs=12x16&chco=FFFFFF,#0000FF,000000&ext=.png');
+		var marker = new google.maps.Marker({
+		title: "Second arc of closed polyarc2!",
+		icon: img,
+		position: latlng
+		});
+		marker.setMap(map);
+
+var coords = [
+new google.maps.LatLng(37.429371, -122.141629),
+new google.maps.LatLng(37.429570, -122.141512),
+new google.maps.LatLng(37.429782, -122.141440),
+new google.maps.LatLng(37.430000, -122.141416),
+new google.maps.LatLng(37.430218, -122.141440),
+new google.maps.LatLng(37.430430, -122.141512),
+new google.maps.LatLng(37.430629, -122.141629),
+new google.maps.LatLng(37.430808, -122.141787),
+new google.maps.LatLng(37.430963, -122.141982),
+new google.maps.LatLng(37.431089, -122.142208),
+new google.maps.LatLng(37.431096, -122.142313),
+new google.maps.LatLng(37.431127, -122.142586),
+new google.maps.LatLng(37.431142, -122.142862),
+new google.maps.LatLng(37.431142, -122.143138),
+new google.maps.LatLng(37.431127, -122.143414),
+new google.maps.LatLng(37.431096, -122.143687),
+new google.maps.LatLng(37.431050, -122.143958),
+new google.maps.LatLng(37.430990, -122.144223),
+new google.maps.LatLng(37.430915, -122.144483),
+new google.maps.LatLng(37.430826, -122.144736),
+];
+
+var polygon = new google.maps.Polygon({
+clickable: false,
+geodesic: true,
+fillColor: "#FF0000",
+fillOpacity: 0.100000,
+paths: coords,
+strokeColor: "#FF0000",
+strokeOpacity: 1.000000,
+strokeWeight: 1
+});
+
+polygon.setMap(map);
+
+
+	}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=&callback=initialize" async defer></script>
+</body>
+</html>
