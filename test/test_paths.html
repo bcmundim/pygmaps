@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="initial-scale=1.0">
 <meta charset=utf-8">
-<title>Google Maps - pygmaps </title>
+<title>Google Maps - pygmaps</title>
 <style>
 	html, body {
 		height: 100%;
@@ -41,6 +41,24 @@ clickable: false,
 geodesic: true,
 path: PolylineCoordinates,
 strokeColor: "#00FF00",
+strokeOpacity: 1.000000,
+strokeWeight: 2
+});
+
+Path.setMap(map);
+
+
+var PolylineCoordinates = [
+new google.maps.LatLng(37.430000, -122.143000),
+new google.maps.LatLng(37.432000, -122.141000),
+new google.maps.LatLng(37.430000, -122.139000),
+];
+
+var Path = new google.maps.Polyline({
+clickable: false,
+geodesic: true,
+path: PolylineCoordinates,
+strokeColor: "#FF0000",
 strokeOpacity: 1.000000,
 strokeWeight: 2
 });
