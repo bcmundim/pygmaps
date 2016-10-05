@@ -31,6 +31,8 @@ class maps:
       self.points = []
       self.radpoints = []
       self.arcs = []
+      self.polyarcs = []
+      self.closedpolyarcs = []
       self.gridsetting = None
       self.coloricon = 'http://chart.apis.google.com/chart?cht=mm&chs=12x16&chco=FFFFFF,XXXXXX,000000&ext=.png'
 
@@ -51,6 +53,16 @@ class maps:
    def addarc(self, lat, lng, rad, thi = 0, thf = 360, color = '#0000FF', 
               addmarker = False, markertitle = "Not available at the moment"):
       self.arcs.append((lat,lng,rad,thi,thf,color,addmarker,markertitle))
+
+#   def addpolyarc(self, lat, lng, rad, thi = 0, thf = 360, color = '#0000FF', 
+#              addmarker = False, markertitle = "Not available at the moment"):
+#      self.polyarcs.append((lat,lng,rad,thi,thf,color,addmarker,markertitle))
+
+   def addpolyarc(self, polyarc, color = '#0000FF'):
+      self.polyarcs.append((polyarc,color))
+
+   def addclosedpolyarc(self, closedpolyarc, color = '#0000FF'):
+      self.closedpolyarcs.append((closedpolyarc,color))
 
    def addpath(self,path,color = '#FF0000'):
       path.append(color)
@@ -95,6 +107,8 @@ class maps:
       self.drawpoints(f)
       self.drawradpoints(f)
       self.drawarcs(f)
+      self.drawpolyarcs(f)
+      self.drawclosedpolyarcs(f)
       self.drawpaths(f,self.paths)
       f.write('\t}\n')
       f.write('</script>\n')
@@ -161,8 +175,42 @@ class maps:
          if arc[6]:
             # lat, lon, color, markertitle:
             self.drawpoint(f,arc[0], arc[1], arc[5], arc[7])
-
          self.drawPolyline(f,path, strokeColor = arc[5])
+
+   def drawpolyarcs(self, f):
+      for parc, color in self.polyarcs:
+         path = []
+         for arc in parc:
+            path += self.getcycle(arc[0:5])
+            # if addmarker:
+            if arc[6]:
+               # lat, lon, color, markertitle:
+               self.drawpoint(f,arc[0], arc[1], arc[5], arc[7])
+         self.drawPolyline(f,path, strokeColor = color)
+
+   def drawclosedpolyarcs(self, f):
+      for parc, color in self.closedpolyarcs:
+         path = []
+         for arc in parc:
+            path += self.getcycle(arc[0:5])
+            # if addmarker:
+            if arc[6]:
+               # lat, lon, color, markertitle:
+               self.drawpoint(f,arc[0], arc[1], arc[5], arc[7])
+         self.drawPolygon(f,path, strokeColor = color,
+                             fillColor = color, fillOpacity = 0.1)
+
+#   def drawpolyarcs(self, f):
+#      path = []
+#      for arc in self.polyarcs:
+#         path += self.getcycle(arc[0:5])
+#         # if addmarker:
+#         if arc[6]:
+#            # lat, lon, color, markertitle:
+#            self.drawpoint(f,arc[0], arc[1], arc[5], arc[7])
+#
+#      self.drawPolygon(f,path, strokeColor = "#0000FF",
+#                             fillColor = "#0000FF", fillOpacity = 0.1)
 
 
    def getcycle(self,rpoint):
@@ -194,8 +242,12 @@ class maps:
       else:
          r = [thi + i*hth for i in xrange(irange+1)]
 
+      # correcting phase for formula below. TODO: fix the formula!
+      ph0 = -90*(math.pi/180.0)
       for a in r:
-         tc = (math.pi/180.0)*a;
+         tc = (math.pi/180.0)*a + ph0;
+         # y = math.asin(math.sin(lat1)*math.cos(d)+math.cos(lat1)*math.sin(d)*math.cos(tc))
+         # dlng = math.atan2(math.sin(tc)*math.sin(d)*math.cos(lat1),math.cos(d)-math.sin(lat1)*math.sin(y))
          y = math.asin(math.sin(lat1)*math.cos(d)+math.cos(lat1)*math.sin(d)*math.cos(tc))
          dlng = math.atan2(math.sin(tc)*math.sin(d)*math.cos(lat1),math.cos(d)-math.sin(lat1)*math.sin(y))
          x = ((lng1-dlng+math.pi) % (2.0*math.pi)) - math.pi 
@@ -362,8 +414,9 @@ if __name__ == "__main__":
    mymap.addpath(path,"#00FF00")
 
 
-   mymap.addarc(37.431, -122.145, 80, thi = 10, thf = 60, color = '#0000FF', 
+   mymap.addarc(37.431, -122.145, 80, thi = 0, thf = 90, color = '#0000FF', 
               addmarker = True, markertitle = "My arc!")
+
 
    ########## FUNCTION:  draw(file, [apikey], [ToFile]) ########################
    # DESC:         create the html map file (.html) or returns it as a string.
