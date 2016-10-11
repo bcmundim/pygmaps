@@ -233,7 +233,9 @@ class maps:
          irange = 36
       hth = dtheta/irange
 
-      d = (rad/1000.0)/6378.8;
+      # Normalize by Earth's equatorial radius used by Google Maps API.
+      # This computes the angle d corresponding to the arc length rad.
+      d = rad/6378137.0; # Earth's radius in meters.
       lat1 = (math.pi/180.0)* lat
       lng1 = (math.pi/180.0)* lng
 
